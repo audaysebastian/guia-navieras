@@ -1,0 +1,1160 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Navieras — Freight Forwarding Argentina</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Barlow+Condensed:wght@400;600;700;800&family=Fira+Code:wght@400;500&display=swap');
+
+:root {
+  --bg: #f2f4f0;
+  --ink: #0f1a0f;
+  --surface: #ffffff;
+  --surface2: #e8ece4;
+  --surface3: #dde3d8;
+  --border: #c8d0c0;
+  --muted: #6a7a62;
+  --muted2: #8a9a82;
+  --navy: #0d2b4a;
+  --navy-light: #e8eef5;
+  --navy-border: #a0b8d0;
+  --ocean: #1a5c8a;
+  --foam: #4a9ec8;
+  --rust: #c84a1a;
+  --rust-light: #faeee8;
+  --rust-border: #e8b0a0;
+  --gold: #c89a00;
+  --gold-light: #fdf5d8;
+  --gold-border: #e8d080;
+  --green: #2a7a3a;
+  --green-light: #e8f5ea;
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'Barlow', sans-serif;
+  min-height: 100vh;
+}
+
+/* Diagonal stripe texture */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    -45deg,
+    transparent,
+    transparent 20px,
+    rgba(0,0,0,0.012) 20px,
+    rgba(0,0,0,0.012) 21px
+  );
+  pointer-events: none;
+  z-index: 0;
+}
+
+.wrap { max-width: 980px; margin: 0 auto; padding: 52px 24px 100px; position: relative; z-index: 1; }
+
+/* Header */
+.hdr {
+  margin-bottom: 48px;
+  background: var(--navy);
+  border-radius: 12px;
+  padding: 36px 40px;
+  position: relative;
+  overflow: hidden;
+}
+.hdr::after {
+  content: '🚢';
+  position: absolute;
+  right: 30px;
+  bottom: -10px;
+  font-size: 120px;
+  opacity: 0.06;
+  line-height: 1;
+}
+.hdr-eyebrow {
+  font-family: 'Fira Code', monospace;
+  font-size: 10px;
+  letter-spacing: 0.25em;
+  color: var(--foam);
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+.hdr h1 {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: clamp(30px, 5vw, 48px);
+  font-weight: 800;
+  line-height: 1.0;
+  letter-spacing: -0.01em;
+  color: #fff;
+  margin-bottom: 14px;
+  text-transform: uppercase;
+}
+.hdr h1 .hl { color: var(--foam); }
+.hdr-sub {
+  font-size: 15px;
+  color: rgba(255,255,255,0.6);
+  line-height: 1.65;
+  max-width: 520px;
+}
+
+/* Tabs */
+.tabs {
+  display: flex;
+  gap: 0;
+  margin-bottom: 32px;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+.tabs::-webkit-scrollbar { display: none; }
+.tab {
+  flex: 1;
+  min-width: 150px;
+  padding: 11px 16px;
+  background: var(--surface);
+  border: none;
+  border-right: 1px solid var(--border);
+  color: var(--muted);
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+  text-align: center;
+}
+.tab:last-child { border-right: none; }
+.tab:hover { background: var(--surface2); color: var(--ink); }
+.tab.active { background: var(--navy); color: #fff; }
+
+.panel { display: none; }
+.panel.active { display: block; animation: fadeIn 0.25s ease; }
+@keyframes fadeIn { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:translateY(0); } }
+
+/* ── PANEL 1: Las grandes navieras ── */
+.intro-strip {
+  background: var(--navy-light);
+  border: 1px solid var(--navy-border);
+  border-left: 4px solid var(--navy);
+  border-radius: 0 8px 8px 0;
+  padding: 16px 20px;
+  margin-bottom: 28px;
+  font-size: 14.5px;
+  color: var(--ink);
+  line-height: 1.7;
+}
+.intro-strip strong { color: var(--navy); }
+
+.alliance-section { margin-bottom: 32px; }
+.alliance-title {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.alliance-title::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+.naviera-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 10px;
+}
+
+.naviera-card {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  padding: 16px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.naviera-card:hover { border-color: var(--navy); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+.naviera-card.open { border-color: var(--navy); background: var(--navy-light); }
+
+.nav-flag { font-size: 22px; margin-bottom: 8px; }
+.nav-code {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 20px;
+  font-weight: 800;
+  color: var(--navy);
+  letter-spacing: -0.01em;
+  margin-bottom: 2px;
+}
+.nav-name { font-size: 12px; color: var(--muted2); margin-bottom: 8px; }
+.nav-tags { display: flex; flex-wrap: wrap; gap: 4px; }
+.nav-tag {
+  font-family: 'Fira Code', monospace;
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: 3px;
+  background: var(--surface2);
+  color: var(--muted);
+  border: 1px solid var(--border);
+}
+.nav-tag.big { background: var(--navy-light); color: var(--ocean); border-color: var(--navy-border); }
+.nav-tag.ar  { background: var(--green-light); color: var(--green); border-color: #a8d8b0; }
+
+.nav-detail {
+  display: none;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border);
+  font-size: 13px;
+  color: var(--muted);
+  line-height: 1.65;
+}
+.naviera-card.open .nav-detail { display: block; }
+.nav-detail strong { color: var(--ink); }
+
+/* Tipos de carga */
+.cargo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 12px;
+  margin-top: 28px;
+}
+.cargo-card {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+}
+.cargo-top {
+  background: var(--navy);
+  padding: 12px 16px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.cargo-icon { font-size: 20px; }
+.cargo-name {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 0.02em;
+}
+.cargo-abbr {
+  font-family: 'Fira Code', monospace;
+  font-size: 11px;
+  color: var(--foam);
+  margin-left: auto;
+}
+.cargo-body {
+  padding: 14px 16px;
+  font-size: 13.5px;
+  color: var(--muted);
+  line-height: 1.65;
+}
+.cargo-body strong { color: var(--ink); }
+
+/* ── PANEL 2: Cómo funciona la tarifa ── */
+.tariff-flow {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin-bottom: 32px;
+}
+
+.tariff-step {
+  display: flex;
+  gap: 0;
+  position: relative;
+}
+
+.tariff-left {
+  width: 140px;
+  flex-shrink: 0;
+  padding: 20px 16px 20px 0;
+  text-align: right;
+}
+.tariff-step-name {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: var(--muted2);
+  letter-spacing: 0.05em;
+  line-height: 1.3;
+}
+.tariff-step-actor {
+  font-size: 11px;
+  color: var(--muted2);
+  font-style: italic;
+  margin-top: 3px;
+}
+
+.tariff-mid {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 48px;
+  flex-shrink: 0;
+}
+.tariff-circle {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: var(--navy);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Fira Code', monospace;
+  font-size: 13px;
+  font-weight: 500;
+  flex-shrink: 0;
+  z-index: 1;
+}
+.tariff-line {
+  width: 2px;
+  flex: 1;
+  background: var(--border);
+  min-height: 20px;
+}
+
+.tariff-right {
+  flex: 1;
+  padding: 14px 0 24px 16px;
+}
+.tariff-card {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  padding: 14px 18px;
+}
+.tariff-card-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 6px;
+}
+.tariff-card-body {
+  font-size: 13.5px;
+  color: var(--muted);
+  line-height: 1.65;
+}
+.tariff-card-body strong { color: var(--ink); }
+.tariff-highlight {
+  margin-top: 10px;
+  background: var(--navy-light);
+  border-radius: 6px;
+  padding: 10px 12px;
+  font-size: 13px;
+  color: var(--ocean);
+  font-family: 'Fira Code', monospace;
+}
+
+/* Surcharges */
+.surcharges-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 10px;
+  margin-bottom: 28px;
+}
+.surcharge-card {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  padding: 14px 16px;
+}
+.sur-code {
+  font-family: 'Fira Code', monospace;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--rust);
+  margin-bottom: 4px;
+}
+.sur-name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink);
+  margin-bottom: 6px;
+}
+.sur-desc { font-size: 13px; color: var(--muted); line-height: 1.6; }
+
+/* ── PANEL 3: Negociación ── */
+.neg-intro {
+  background: var(--gold-light);
+  border: 1px solid var(--gold-border);
+  border-left: 4px solid var(--gold);
+  border-radius: 0 8px 8px 0;
+  padding: 16px 20px;
+  margin-bottom: 28px;
+  font-size: 14.5px;
+  color: var(--ink);
+  line-height: 1.7;
+}
+.neg-intro strong { color: var(--gold); }
+
+.neg-factors {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 12px;
+  margin-bottom: 32px;
+}
+.factor-card {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  overflow: hidden;
+  transition: transform 0.2s, border-color 0.2s;
+}
+.factor-card:hover { transform: translateY(-2px); border-color: var(--gold-border); }
+.factor-top {
+  padding: 14px 16px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.factor-icon { font-size: 22px; }
+.factor-title { font-size: 14px; font-weight: 600; flex: 1; }
+.factor-power {
+  font-family: 'Fira Code', monospace;
+  font-size: 10px;
+  padding: 3px 8px;
+  border-radius: 3px;
+}
+.power-high { background: var(--green-light); color: var(--green); border: 1px solid #a8d8b0; }
+.power-med  { background: var(--gold-light);  color: var(--gold);  border: 1px solid var(--gold-border); }
+.power-low  { background: var(--rust-light);  color: var(--rust);  border: 1px solid var(--rust-border); }
+.factor-body {
+  padding: 14px 16px;
+  font-size: 13.5px;
+  color: var(--muted);
+  line-height: 1.65;
+}
+.factor-body strong { color: var(--ink); }
+
+/* Tácticas de negociación */
+.tactics { display: flex; flex-direction: column; gap: 10px; margin-bottom: 28px; }
+.tactic {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  display: flex;
+  align-items: flex-start;
+  gap: 0;
+  overflow: hidden;
+  cursor: pointer;
+  transition: border-color 0.2s;
+}
+.tactic:hover { border-color: var(--gold-border); }
+.tactic.open  { border-color: var(--gold); }
+.tactic-num {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--border);
+  padding: 14px 16px;
+  min-width: 64px;
+  text-align: center;
+  border-right: 1px solid var(--border);
+  background: var(--surface2);
+  transition: color 0.2s;
+}
+.tactic:hover .tactic-num,
+.tactic.open  .tactic-num { color: var(--gold); }
+.tactic-main { flex: 1; padding: 14px 18px; }
+.tactic-title { font-size: 15px; font-weight: 600; color: var(--ink); margin-bottom: 4px; }
+.tactic-sub   { font-size: 13px; color: var(--muted2); }
+.tactic-arrow { padding: 14px 16px; color: var(--muted2); font-size: 16px; transition: transform 0.2s; }
+.tactic.open .tactic-arrow { transform: rotate(90deg); }
+.tactic-detail {
+  display: none;
+  padding: 0 18px 16px 18px;
+  border-top: 1px solid var(--border);
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.7;
+  padding-top: 14px;
+}
+.tactic.open .tactic-detail { display: block; }
+.tactic-detail strong { color: var(--ink); }
+.tactic-tip {
+  margin-top: 10px;
+  background: var(--gold-light);
+  border-left: 2px solid var(--gold);
+  padding: 10px 14px;
+  border-radius: 0 6px 6px 0;
+  font-size: 13.5px;
+  color: var(--muted);
+}
+.tactic-tip strong { color: var(--gold); }
+
+/* ── PANEL 4: Problemas frecuentes ── */
+.problems { display: flex; flex-direction: column; gap: 12px; }
+.problem-card {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: 10px;
+  overflow: hidden;
+}
+.prob-header {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 20px;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.prob-header:hover { background: var(--surface2); }
+.prob-icon { font-size: 24px; flex-shrink: 0; }
+.prob-main { flex: 1; }
+.prob-title { font-size: 15px; font-weight: 600; color: var(--ink); margin-bottom: 3px; }
+.prob-sub { font-size: 13px; color: var(--muted2); }
+.prob-tag {
+  font-family: 'Fira Code', monospace;
+  font-size: 10px;
+  padding: 3px 8px;
+  border-radius: 3px;
+}
+.tag-freq { background: var(--rust-light); color: var(--rust); border: 1px solid var(--rust-border); }
+.tag-cost { background: var(--gold-light); color: var(--gold); border: 1px solid var(--gold-border); }
+.tag-ops  { background: var(--navy-light); color: var(--ocean); border: 1px solid var(--navy-border); }
+.prob-toggle { color: var(--muted2); font-size: 16px; transition: transform 0.2s; }
+.problem-card.open .prob-toggle { transform: rotate(90deg); }
+
+.prob-body {
+  display: none;
+  border-top: 1px solid var(--border);
+  padding: 18px 20px;
+}
+.problem-card.open .prob-body { display: block; }
+.prob-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+@media(max-width:560px){ .prob-grid { grid-template-columns: 1fr; } }
+.prob-col-title {
+  font-family: 'Fira Code', monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+.prob-col-title.red    { color: var(--rust); }
+.prob-col-title.green  { color: var(--green); }
+.prob-text {
+  font-size: 13.5px;
+  color: var(--muted);
+  line-height: 1.7;
+}
+.prob-text strong { color: var(--ink); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="hdr">
+    <div class="hdr-eyebrow">Freight Forwarding · Módulo 6</div>
+    <h1>Las <span class="hl">navieras</span><br>y cómo negociar con ellas</h1>
+    <div class="hdr-sub">Quiénes son, cómo fijan sus tarifas, qué palancas tiene el forwarder para negociar y los problemas que aparecen en la operación.</div>
+  </div>
+
+  <div class="tabs">
+    <button class="tab active" onclick="showPanel(0)">1 · Las grandes navieras</button>
+    <button class="tab" onclick="showPanel(1)">2 · Tarifas y recargos</button>
+    <button class="tab" onclick="showPanel(2)">3 · Cómo negociar</button>
+    <button class="tab" onclick="showPanel(3)">4 · Problemas frecuentes</button>
+  </div>
+
+  <!-- ── PANEL 1 ── -->
+  <div class="panel active" id="p0">
+
+    <div class="intro-strip">
+      El mercado naviero mundial está dominado por <strong>unas pocas navieras gigantes</strong> agrupadas en alianzas estratégicas. Estas alianzas comparten buques para optimizar costos, lo que significa que aunque cotices con MSC, tu contenedor puede viajar en un buque de Maersk. Para el forwarder lo importante es saber <strong>cuál tiene mejor tarifa en cada ruta y en cada momento</strong>.
+    </div>
+
+    <div class="alliance-section">
+      <div class="alliance-title">Las navieras más relevantes para Argentina</div>
+      <div class="naviera-grid">
+
+        <div class="naviera-card" onclick="toggleNav(this)">
+          <div class="nav-flag">🇩🇰</div>
+          <div class="nav-code">MAERSK</div>
+          <div class="nav-name">A.P. Møller-Mærsk</div>
+          <div class="nav-tags">
+            <span class="nav-tag big">Nº1 mundial</span>
+            <span class="nav-tag ar">Opera en AR</span>
+          </div>
+          <div class="nav-detail">
+            La naviera más grande del mundo por capacidad. Tiene presencia directa en Argentina con agentes locales. <strong>Ventajas:</strong> amplia disponibilidad de equipos, buena cobertura de rutas. <strong>Desventajas:</strong> tarifas generalmente más altas, menos flexible en negociación con forwarders pequeños.
+          </div>
+        </div>
+
+        <div class="naviera-card" onclick="toggleNav(this)">
+          <div class="nav-flag">🇨🇭</div>
+          <div class="nav-code">MSC</div>
+          <div class="nav-name">Mediterranean Shipping Co.</div>
+          <div class="nav-tags">
+            <span class="nav-tag big">Nº2 mundial</span>
+            <span class="nav-tag ar">Opera en AR</span>
+          </div>
+          <div class="nav-detail">
+            Muy activa en la ruta Asia–Sudamérica. <strong>Ventajas:</strong> buena frecuencia de salidas hacia Argentina, precios competitivos, equipo disponible. <strong>Para el forwarder:</strong> una de las más trabajadas en importaciones desde China y Europa hacia Buenos Aires. La cotización que analizamos era de ONE, pero MSC suele ser muy competitiva en esta ruta.
+          </div>
+        </div>
+
+        <div class="naviera-card" onclick="toggleNav(this)">
+          <div class="nav-flag">🇫🇷</div>
+          <div class="nav-code">CMA CGM</div>
+          <div class="nav-name">CMA CGM Group</div>
+          <div class="nav-tags">
+            <span class="nav-tag big">Nº3 mundial</span>
+            <span class="nav-tag ar">Opera en AR</span>
+          </div>
+          <div class="nav-detail">
+            Francesa, muy presente en rutas desde Asia, Europa y costa este de EEUU hacia Argentina. <strong>Ventajas:</strong> buena variedad de servicios directos y con transbordo, equipo disponible. Tiene el servicio "EPIC" que conecta Asia–Sudamérica con escalas en Buenos Aires.
+          </div>
+        </div>
+
+        <div class="naviera-card" onclick="toggleNav(this)">
+          <div class="nav-flag">🇯🇵</div>
+          <div class="nav-code">ONE</div>
+          <div class="nav-name">Ocean Network Express</div>
+          <div class="nav-tags">
+            <span class="nav-tag big">Top 5</span>
+            <span class="nav-tag ar">Opera en AR</span>
+          </div>
+          <div class="nav-detail">
+            Nacida en 2017 de la fusión de las navieras japonesas NYK, MOL y K-Line. Muy activa en la ruta Asia–Sudamérica. <strong>La naviera de la cotización que analizamos.</strong> Ofrece servicios directos desde puertos chinos (Qingdao, Shanghai, Ningbo) a Buenos Aires con tiempos de tránsito de 45-60 días.
+          </div>
+        </div>
+
+        <div class="naviera-card" onclick="toggleNav(this)">
+          <div class="nav-flag">🇰🇷</div>
+          <div class="nav-code">HMM</div>
+          <div class="nav-name">Hyundai Merchant Marine</div>
+          <div class="nav-tags">
+            <span class="nav-tag">Asia–LATAM</span>
+            <span class="nav-tag ar">Opera en AR</span>
+          </div>
+          <div class="nav-detail">
+            Naviera coreana con buena presencia en la ruta Asia–Sudamérica. <strong>Ventajas:</strong> suele tener tarifas más competitivas que las top 3 en ciertos momentos, buen equipo. Para forwarders que buscan alternativas de precio en la ruta China–Argentina es una opción a cotizar siempre.
+          </div>
+        </div>
+
+        <div class="naviera-card" onclick="toggleNav(this)">
+          <div class="nav-flag">🇩🇪</div>
+          <div class="nav-code">HAPAG</div>
+          <div class="nav-name">Hapag-Lloyd</div>
+          <div class="nav-tags">
+            <span class="nav-tag big">Top 5</span>
+            <span class="nav-tag ar">Opera en AR</span>
+          </div>
+          <div class="nav-detail">
+            Alemana, muy fuerte en la ruta Europa–Sudamérica. Para importaciones desde Alemania, España, Italia o Países Bajos, Hapag es frecuentemente la opción más conveniente. <strong>Fuerte en servicio y confiabilidad</strong>, aunque no siempre la más barata.
+          </div>
+        </div>
+
+        <div class="naviera-card" onclick="toggleNav(this)">
+          <div class="nav-flag">🇮🇱</div>
+          <div class="nav-code">ZIM</div>
+          <div class="nav-name">ZIM Integrated Shipping</div>
+          <div class="nav-tags">
+            <span class="nav-tag">Flexible</span>
+            <span class="nav-tag ar">Opera en AR</span>
+          </div>
+          <div class="nav-detail">
+            Israelí, más pequeña que las anteriores pero con una estrategia de <strong>nichos y flexibilidad</strong>. Suele ofrecer tarifas competitivas en momentos donde las grandes están saturadas. Para el forwarder es una buena alternativa de "segunda opción" cuando el precio es prioritario.
+          </div>
+        </div>
+
+        <div class="naviera-card" onclick="toggleNav(this)">
+          <div class="nav-flag">🇹🇼</div>
+          <div class="nav-code">EVERGREEN</div>
+          <div class="nav-name">Evergreen Marine Corp.</div>
+          <div class="nav-tags">
+            <span class="nav-tag">Asia–LATAM</span>
+            <span class="nav-tag ar">Opera en AR</span>
+          </div>
+          <div class="nav-detail">
+            Taiwanesa, una de las más activas en la ruta Asia–Sudamérica. Famosa por el incidente del Canal de Suez en 2021. <strong>Ventajas:</strong> buena frecuencia desde puertos chinos, tarifas competitivas. Para importaciones desde Taiwan y China es siempre una opción a considerar.
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Tipos de contenedor -->
+    <div class="alliance-title" style="margin-bottom:14px">Tipos de contenedor que vas a ver en cotizaciones</div>
+    <div class="cargo-grid">
+      <div class="cargo-card">
+        <div class="cargo-top">
+          <div class="cargo-icon">📦</div>
+          <div class="cargo-name">Dry Container</div>
+          <div class="cargo-abbr">20GP / 40GP / 40HC</div>
+        </div>
+        <div class="cargo-body">
+          El estándar. <strong>20GP</strong> (20 pies General Purpose): ~33 CBM, ~28 ton. <strong>40GP</strong>: ~67 CBM. <strong>40HC</strong> (High Cube): ~76 CBM, 30 cm más alto. El HC es el más usado hoy porque la diferencia de precio con el GP es mínima y da más espacio.
+        </div>
+      </div>
+      <div class="cargo-card">
+        <div class="cargo-top">
+          <div class="cargo-icon">❄️</div>
+          <div class="cargo-name">Reefer</div>
+          <div class="cargo-abbr">20RF / 40RF</div>
+        </div>
+        <div class="cargo-body">
+          Contenedor refrigerado para mercadería que necesita temperatura controlada (alimentos, farmacéuticos). Tiene su propio compresor. <strong>Mucho más caro</strong> que un dry — puede ser 3-4x el precio del flete estándar.
+        </div>
+      </div>
+      <div class="cargo-card">
+        <div class="cargo-top">
+          <div class="cargo-icon">🔓</div>
+          <div class="cargo-name">Open Top / Flat Rack</div>
+          <div class="cargo-abbr">OT / FR</div>
+        </div>
+        <div class="cargo-body">
+          Para carga sobredimensionada o que no entra en un contenedor cerrado: maquinaria grande, estructuras metálicas, vehículos. El <strong>flat rack</strong> no tiene paredes laterales; el <strong>open top</strong> no tiene techo.
+        </div>
+      </div>
+      <div class="cargo-card">
+        <div class="cargo-top">
+          <div class="cargo-icon">🪣</div>
+          <div class="cargo-name">Tank Container</div>
+          <div class="cargo-abbr">TANK</div>
+        </div>
+        <div class="cargo-body">
+          Para líquidos a granel: químicos, aceites, alimentos líquidos. Tiene certificaciones especiales. <strong>Relevante para empresas industriales</strong> — un segmento donde tu perfil de ingeniero puede abrir puertas.
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── PANEL 2: Tarifas ── -->
+  <div class="panel" id="p1">
+
+    <div class="tariff-flow">
+
+      <div class="tariff-step">
+        <div class="tariff-left">
+          <div class="tariff-step-name">Tarifa base</div>
+          <div class="tariff-step-actor">Naviera → Forwarder</div>
+        </div>
+        <div class="tariff-mid">
+          <div class="tariff-circle">01</div>
+          <div class="tariff-line"></div>
+        </div>
+        <div class="tariff-right">
+          <div class="tariff-card">
+            <div class="tariff-card-title">Ocean Freight Rate (OFR)</div>
+            <div class="tariff-card-body">
+              El precio base del flete por contenedor de origen a destino. Se expresa en <strong>USD/contenedor</strong> (FCL) o <strong>USD/CBM o USD/ton</strong> (LCL). Varía según la ruta, la temporada y la demanda. La naviera la cotiza al forwarder — puede ser una <strong>tarifa spot</strong> (válida pocos días) o una <strong>tarifa de contrato</strong> anual.
+            </div>
+            <div class="tariff-highlight">Ej: USD 3.300 / 20GP Shanghai → Buenos Aires</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tariff-step">
+        <div class="tariff-left">
+          <div class="tariff-step-name">Recargos</div>
+          <div class="tariff-step-actor">Naviera → Forwarder</div>
+        </div>
+        <div class="tariff-mid">
+          <div class="tariff-circle">02</div>
+          <div class="tariff-line"></div>
+        </div>
+        <div class="tariff-right">
+          <div class="tariff-card">
+            <div class="tariff-card-title">Surcharges — Los extras que se suman</div>
+            <div class="tariff-card-body">
+              Sobre la tarifa base, las navieras cobran una serie de recargos que pueden sumar <strong>20-40% adicional</strong>. Es fundamental conocerlos para no subestimar el costo real del flete. Ver detalle abajo.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tariff-step">
+        <div class="tariff-left">
+          <div class="tariff-step-name">Margen</div>
+          <div class="tariff-step-actor">Forwarder aplica</div>
+        </div>
+        <div class="tariff-mid">
+          <div class="tariff-circle">03</div>
+          <div class="tariff-line"></div>
+        </div>
+        <div class="tariff-right">
+          <div class="tariff-card">
+            <div class="tariff-card-title">Spread del forwarder</div>
+            <div class="tariff-card-body">
+              El forwarder toma el costo total (OFR + surcharges) y le aplica su margen antes de pasarlo al cliente. El margen puede ser un <strong>% fijo o un monto fijo por contenedor</strong>. En rutas competidas suele ser más ajustado.
+            </div>
+            <div class="tariff-highlight">Costo: USD 3.300 → Precio cliente: USD 3.800 → Margen: USD 500</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tariff-step">
+        <div class="tariff-left">
+          <div class="tariff-step-name">Precio final</div>
+          <div class="tariff-step-actor">Forwarder → Cliente</div>
+        </div>
+        <div class="tariff-mid">
+          <div class="tariff-circle">04</div>
+        </div>
+        <div class="tariff-right">
+          <div class="tariff-card">
+            <div class="tariff-card-title">Lo que ve el cliente</div>
+            <div class="tariff-card-body">
+              El cliente recibe el flete como <strong>un número único</strong> — no ve lo que paga el forwarder a la naviera. Esa opacidad es parte del modelo de negocio y es legítima siempre que el precio sea competitivo.
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="alliance-title" style="margin-bottom:14px">Surcharges más comunes — Los que tenés que conocer</div>
+    <div class="surcharges-grid">
+      <div class="surcharge-card">
+        <div class="sur-code">BAF / LSS</div>
+        <div class="sur-name">Bunker / Low Sulphur Surcharge</div>
+        <div class="sur-desc">Recargo por combustible. Varía según el precio del petróleo y las regulaciones de emisiones (IMO 2020 obligó el uso de combustible bajo en azufre, más caro). <strong>Puede ser USD 50-300/contenedor.</strong></div>
+      </div>
+      <div class="surcharge-card">
+        <div class="sur-code">THC</div>
+        <div class="sur-name">Terminal Handling Charge</div>
+        <div class="sur-desc">Cobro por el movimiento del contenedor dentro de la terminal portuaria (grúas, tracción, depósito). Se cobra en origen y en destino. <strong>El de destino lo vimos en la cotización: USD 185.</strong></div>
+      </div>
+      <div class="surcharge-card">
+        <div class="sur-code">B/L FEE</div>
+        <div class="sur-name">Bill of Lading Fee</div>
+        <div class="sur-desc">Cobro por la emisión del conocimiento de embarque. Generalmente <strong>USD 30-80</strong>. Algunos forwarders lo incluyen en el flete; otros lo listan aparte como en la cotización que analizamos.</div>
+      </div>
+      <div class="surcharge-card">
+        <div class="sur-code">PCS / GRI</div>
+        <div class="sur-name">Peak Season / General Rate Increase</div>
+        <div class="sur-desc">Recargo por temporada alta (antes de Navidad, post-Año Nuevo Chino) o aumento general de tarifas. Las navieras los anuncian con poca anticipación — el forwarder debe estar alerta.</div>
+      </div>
+      <div class="surcharge-card">
+        <div class="sur-code">WAR / RISK</div>
+        <div class="sur-name">War Risk Surcharge</div>
+        <div class="sur-desc">Recargo por rutas con riesgo de conflicto armado. <strong>Post-2023 se activó fuerte en rutas que pasan por el Mar Rojo</strong> (Suez), obligando a rodear África y aumentando tiempos y costos.</div>
+      </div>
+      <div class="surcharge-card">
+        <div class="sur-code">CIC / EBS</div>
+        <div class="sur-name">Container Imbalance / Equipment Imbalance</div>
+        <div class="sur-desc">Recargo por desequilibrio de equipos. Sudamérica importa más de lo que exporta → hay más contenedores que entran que salen → las navieras cobran este extra para reposicionar equipos vacíos.</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── PANEL 3: Negociación ── -->
+  <div class="panel" id="p2">
+
+    <div class="neg-intro">
+      La negociación con navieras es uno de los puntos donde el forwarder puede <strong>crear ventaja competitiva real</strong>. No es solo pedir descuento — es construir una relación donde la naviera te priorice en espacio, equipo y tarifa cuando más lo necesitás. Y eso lleva tiempo y volumen.
+    </div>
+
+    <div class="alliance-title" style="margin-bottom:14px">Factores que determinan tu poder de negociación</div>
+    <div class="neg-factors">
+      <div class="factor-card">
+        <div class="factor-top">
+          <div class="factor-icon">📊</div>
+          <div class="factor-title">Volumen comprometido</div>
+          <span class="factor-power power-high">Alto impacto</span>
+        </div>
+        <div class="factor-body">
+          El factor más poderoso. Si podés comprometer <strong>X contenedores por mes o por año</strong>, la naviera te da una tarifa de contrato más baja que el spot. Con 5-10 contenedores mensuales ya tenés palanca para negociar. Con 20+ abrís la puerta a contratos anuales con descuentos significativos.
+        </div>
+      </div>
+      <div class="factor-card">
+        <div class="factor-top">
+          <div class="factor-icon">🔄</div>
+          <div class="factor-title">Consistencia y fidelidad</div>
+          <span class="factor-power power-high">Alto impacto</span>
+        </div>
+        <div class="factor-body">
+          Un forwarder que siempre manda carga aunque el mercado esté complicado vale más que uno que solo aparece cuando el spot es barato. La <strong>consistencia a lo largo del tiempo</strong> construye una relación donde el agente naviero te llama primero cuando hay espacio o cuando bajan las tarifas.
+        </div>
+      </div>
+      <div class="factor-card">
+        <div class="factor-top">
+          <div class="factor-icon">🗓️</div>
+          <div class="factor-title">Anticipación del booking</div>
+          <span class="factor-power power-med">Impacto medio</span>
+        </div>
+        <div class="factor-body">
+          Confirmar el booking con <strong>3-4 semanas de anticipación</strong> le da certeza a la naviera para planificar su carga. A cambio, puede ofrecer mejor tarifa o garantía de espacio. Bookings de último momento son más caros y arriesgados.
+        </div>
+      </div>
+      <div class="factor-card">
+        <div class="factor-top">
+          <div class="factor-icon">🌐</div>
+          <div class="factor-title">Diversidad de rutas</div>
+          <span class="factor-power power-med">Impacto medio</span>
+        </div>
+        <div class="factor-body">
+          Si trabajás con una sola naviera en una sola ruta, tu poder es bajo. Si manejás múltiples rutas (China, Europa, EEUU, Brasil) con la misma naviera, el volumen agregado mejora tu posición. La naviera prefiere un forwarder que le dé carga en varias rutas.
+        </div>
+      </div>
+      <div class="factor-card">
+        <div class="factor-top">
+          <div class="factor-icon">💳</div>
+          <div class="factor-title">Historial de pago</div>
+          <span class="factor-power power-high">Alto impacto</span>
+        </div>
+        <div class="factor-body">
+          Las navieras tienen <strong>crédito limitado para forwarders</strong>. Un historial de pago puntual es un activo enorme — te da más plazo de crédito (30-45 días) que a forwarders nuevos, lo que mejora el flujo de caja del negocio.
+        </div>
+      </div>
+      <div class="factor-card">
+        <div class="factor-top">
+          <div class="factor-icon">📍</div>
+          <div class="factor-title">Especialización en una ruta</div>
+          <span class="factor-power power-med">Impacto medio</span>
+        </div>
+        <div class="factor-body">
+          Ser "el forwarder de la ruta China–Argentina" para una naviera específica te da más poder que ser un forwarder genérico. La naviera te consulta, te avisa de cambios y te prioriza en esa ruta porque sabe que vas a generar carga consistente.
+        </div>
+      </div>
+    </div>
+
+    <div class="alliance-title" style="margin-bottom:14px">Tácticas concretas de negociación</div>
+    <div class="tactics">
+
+      <div class="tactic" onclick="toggleTactic(this)">
+        <div class="tactic-num">01</div>
+        <div class="tactic-main">
+          <div class="tactic-title">Cotizar siempre con 2-3 navieras en paralelo</div>
+          <div class="tactic-sub">La competencia es tu mayor herramienta</div>
+        </div>
+        <div class="tactic-arrow">›</div>
+        <div class="tactic-detail">
+          Nunca mandés un solo pedido de cotización. Contactá a <strong>MSC, ONE y CMA CGM al mismo tiempo</strong> para la misma carga. Cuando recibís las tres ofertas, podés volver a la más cara y decirle: "tengo una oferta de USD 200 menos, ¿podés mejorar?" — muchas veces lo hacen.
+          <div class="tactic-tip"><strong>Regla práctica:</strong> El agente naviero sabe que estás cotizando con otros. No lo ocultés — úsalo como palanca. "Me llegó una tarifa mejor de otra línea, ¿qué podés hacer?" es una frase completamente válida y esperada.</div>
+        </div>
+      </div>
+
+      <div class="tactic" onclick="toggleTactic(this)">
+        <div class="tactic-num">02</div>
+        <div class="tactic-main">
+          <div class="tactic-title">Negociar en nombre del cliente final, no del forwarder</div>
+          <div class="tactic-sub">Mostrar el volumen real detrás de la operación</div>
+        </div>
+        <div class="tactic-arrow">›</div>
+        <div class="tactic-detail">
+          Si tu cliente importa regularmente (4-6 contenedores por año), presentalo ante la naviera como un <strong>cliente recurrente</strong>. "Este cliente va a necesitar al menos un contenedor por bimestre desde China — ¿qué tarifa me das para comprometer ese volumen?" cambia completamente la conversación.
+          <div class="tactic-tip"><strong>Cuidado:</strong> Solo prometé volumen si estás razonablemente seguro de que el cliente va a cumplir. Comprometer carga que después no existe daña tu relación con la naviera.</div>
+        </div>
+      </div>
+
+      <div class="tactic" onclick="toggleTactic(this)">
+        <div class="tactic-num">03</div>
+        <div class="tactic-main">
+          <div class="tactic-title">Pedir "free days" extendidos como moneda de cambio</div>
+          <div class="tactic-sub">No todo se negocia en el precio del flete</div>
+        </div>
+        <div class="tactic-arrow">›</div>
+        <div class="tactic-detail">
+          Si la naviera no puede bajar el precio del flete, pedí más <strong>días libres en destino</strong>. La cotización que analizamos tenía 18 días — podés pedir 21 o 28. En Argentina, donde los procesos aduaneros se demoran, cada día extra de free time es dinero real (evita el costo de almacenaje).
+          <div class="tactic-tip"><strong>Ejemplo real:</strong> La diferencia entre 18 y 28 días free time puede significar USD 150-300 menos en almacenaje si el despacho se complica. Eso puede ser más valioso que USD 50 menos en el flete.</div>
+        </div>
+      </div>
+
+      <div class="tactic" onclick="toggleTactic(this)">
+        <div class="tactic-num">04</div>
+        <div class="tactic-main">
+          <div class="tactic-title">Usar el timing del mercado a tu favor</div>
+          <div class="tactic-sub">Las tarifas suben y bajan con la demanda</div>
+        </div>
+        <div class="tactic-arrow">›</div>
+        <div class="tactic-detail">
+          Las tarifas navieras son cíclicas. Hay períodos de <strong>baja demanda</strong> (post Año Nuevo Chino en febrero, baja temporada julio-agosto) donde las navieras tienen espacio libre y están más dispuestas a negociar. Si la carga del cliente no es urgente, esperar el momento correcto puede ahorrar USD 200-500 por contenedor.
+          <div class="tactic-tip"><strong>Monitoreo:</strong> El índice Freightos Baltic (FBX) y el Shanghai Containerized Freight Index (SCFI) son referencias públicas de tarifas de mercado. Seguirlos te da contexto para negociar.</div>
+        </div>
+      </div>
+
+      <div class="tactic" onclick="toggleTactic(this)">
+        <div class="tactic-num">05</div>
+        <div class="tactic-main">
+          <div class="tactic-title">Construir relación con el agente naviero, no solo la tarifa</div>
+          <div class="tactic-sub">El negocio naviero es de personas</div>
+        </div>
+        <div class="tactic-arrow">›</div>
+        <div class="tactic-detail">
+          El agente naviero local (la persona que te atiende en Argentina para MSC, ONE, etc.) tiene <strong>discrecionalidad</strong> para darte mejores condiciones si la relación es buena. Llamarlo cuando no tenés una necesidad urgente, avisarle con anticipación de cargas que vienen, pagarle siempre en tiempo — todo eso construye capital de relación que se traduce en mejores tarifas y atención prioritaria cuando hay problemas.
+          <div class="tactic-tip"><strong>El dato real:</strong> En el mercado naviero argentino, muchos negocios se hacen por teléfono y WhatsApp entre personas que se conocen hace años. La red de contactos de tu amigo es su activo más difícil de copiar.</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- ── PANEL 4: Problemas frecuentes ── -->
+  <div class="panel" id="p3">
+
+    <div class="problems">
+
+      <div class="problem-card" onclick="toggleProblem(this)">
+        <div class="prob-header">
+          <div class="prob-icon">📭</div>
+          <div class="prob-main">
+            <div class="prob-title">Falta de espacio (space shortage)</div>
+            <div class="prob-sub">La naviera no tiene lugar en el buque confirmado</div>
+          </div>
+          <span class="prob-tag tag-freq">Muy frecuente</span>
+          <div class="prob-toggle">›</div>
+        </div>
+        <div class="prob-body">
+          <div class="prob-grid">
+            <div>
+              <div class="prob-col-title red">El problema</div>
+              <div class="prob-text">El forwarder confirma el booking y la naviera después avisa que no hay espacio en el buque programado. La carga queda esperando al siguiente zarpe — puede ser <strong>7-14 días de demora</strong>. En temporada alta (antes de Navidad, post Año Nuevo Chino) es muy común.</div>
+            </div>
+            <div>
+              <div class="prob-col-title green">Cómo manejarlo</div>
+              <div class="prob-text">
+                <strong>Anticipar el booking</strong> con 3-4 semanas. Trabajar con 2-3 navieras para tener alternativa. Comunicar al cliente apenas se conoce la demora — sin sorpresas. Siempre tener en la cotización una cláusula de "fecha de embarque estimada sujeta a disponibilidad de espacio".
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="problem-card" onclick="toggleProblem(this)">
+        <div class="prob-header">
+          <div class="prob-icon">📦</div>
+          <div class="prob-main">
+            <div class="prob-title">Falta de equipo (equipment shortage)</div>
+            <div class="prob-sub">No hay contenedores disponibles en origen</div>
+          </div>
+          <span class="prob-tag tag-freq">Frecuente en picos</span>
+          <div class="prob-toggle">›</div>
+        </div>
+        <div class="prob-body">
+          <div class="prob-grid">
+            <div>
+              <div class="prob-col-title red">El problema</div>
+              <div class="prob-text">En picos de demanda (especialmente en China pre-Navidad), no hay contenedores vacíos disponibles para cargar. El proveedor tiene la mercadería lista pero no hay caja para embarcarla. Genera demoras en origen y presión sobre el cliente.</div>
+            </div>
+            <div>
+              <div class="prob-col-title green">Cómo manejarlo</div>
+              <div class="prob-text">Instruir al agente en origen que confirme disponibilidad de equipo <strong>antes</strong> de confirmar fecha de embarque al cliente. En temporada crítica, hacer booking con más anticipación y eventualmente pagar un premium por prioridad de equipo.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="problem-card" onclick="toggleProblem(this)">
+        <div class="prob-header">
+          <div class="prob-icon">⚓</div>
+          <div class="prob-main">
+            <div class="prob-title">Demoras en puerto de destino</div>
+            <div class="prob-sub">Congestión en terminales argentinas</div>
+          </div>
+          <span class="prob-tag tag-cost">Costo alto</span>
+          <div class="prob-toggle">›</div>
+        </div>
+        <div class="prob-body">
+          <div class="prob-grid">
+            <div>
+              <div class="prob-col-title red">El problema</div>
+              <div class="prob-text">Las terminales portuarias argentinas (especialmente Buenos Aires) tienen episodios de congestión donde los buques esperan fondeo antes de poder atracar. Eso <strong>no cuenta como free time</strong> — el reloj de almacenaje corre igual. Puede costar USD 100-200 por día extra.</div>
+            </div>
+            <div>
+              <div class="prob-col-title green">Cómo manejarlo</div>
+              <div class="prob-text">Incluir siempre almacenaje estimado conservador en la cotización. Hacer seguimiento activo del buque (hay apps de tracking: VesselFinder, MarineTraffic) para anticipar demoras. Avisar al cliente y al despachante apenas se detecta la demora para agilizar el despacho.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="problem-card" onclick="toggleProblem(this)">
+        <div class="prob-header">
+          <div class="prob-icon">🔀</div>
+          <div class="prob-main">
+            <div class="prob-title">Roll-over (la carga se "pasa" al siguiente buque)</div>
+            <div class="prob-sub">La naviera mueve tu carga sin avisar</div>
+          </div>
+          <span class="prob-tag tag-ops">Operativo</span>
+          <div class="prob-toggle">›</div>
+        </div>
+        <div class="prob-body">
+          <div class="prob-grid">
+            <div>
+              <div class="prob-col-title red">El problema</div>
+              <div class="prob-text">La naviera, por sobreventa o cambio de ruta, saca tu contenedor del buque confirmado y lo mete en el siguiente. Puede pasar <strong>sin previo aviso</strong>. Si el cliente tiene una fecha crítica de recepción (cierre de importación, vencimiento de permisos), es un problema serio.</div>
+            </div>
+            <div>
+              <div class="prob-col-title green">Cómo manejarlo</div>
+              <div class="prob-text">Hacer seguimiento del booking en el sistema de la naviera (todas tienen tracking online). Ante la mínima señal de roll-over, llamar al agente naviero inmediatamente. <strong>Para cargas urgentes</strong>, acordar por escrito el buque confirmado y pedir garantía de embarque.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="problem-card" onclick="toggleProblem(this)">
+        <div class="prob-header">
+          <div class="prob-icon">💸</div>
+          <div class="prob-main">
+            <div class="prob-title">Cambios de tarifa post-booking</div>
+            <div class="prob-sub">La naviera sube el precio después de cotizar</div>
+          </div>
+          <span class="prob-tag tag-cost">Impacto económico</span>
+          <div class="prob-toggle">›</div>
+        </div>
+        <div class="prob-body">
+          <div class="prob-grid">
+            <div>
+              <div class="prob-col-title red">El problema</div>
+              <div class="prob-text">En mercados alcistas, las navieras pueden anunciar un GRI (General Rate Increase) con pocos días de anticipación. Si el forwarder ya le cotizó al cliente pero no confirmó el booking con la naviera, <strong>queda atrapado entre el precio viejo al cliente y el precio nuevo de la naviera</strong>.</div>
+            </div>
+            <div>
+              <div class="prob-col-title green">Cómo manejarlo</div>
+              <div class="prob-text">Poner siempre validez corta en las cotizaciones (7 días máximo). Confirmar el booking con la naviera <strong>tan pronto como el cliente acepta</strong> — no esperar. En períodos de alta volatilidad de tarifas, acortar la validez a 3-5 días.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<script>
+function showPanel(i) {
+  document.querySelectorAll('.panel').forEach((p,j) => p.classList.toggle('active', i===j));
+  document.querySelectorAll('.tab').forEach((t,j) => t.classList.toggle('active', i===j));
+}
+function toggleNav(card) {
+  const wasOpen = card.classList.contains('open');
+  document.querySelectorAll('.naviera-card.open').forEach(c => c.classList.remove('open'));
+  if(!wasOpen) card.classList.add('open');
+}
+function toggleTactic(el) {
+  const wasOpen = el.classList.contains('open');
+  document.querySelectorAll('.tactic.open').forEach(c => c.classList.remove('open'));
+  if(!wasOpen) el.classList.add('open');
+}
+function toggleProblem(card) {
+  const wasOpen = card.classList.contains('open');
+  document.querySelectorAll('.problem-card.open').forEach(c => c.classList.remove('open'));
+  if(!wasOpen) card.classList.add('open');
+}
+</script>
+</body>
+</html>
